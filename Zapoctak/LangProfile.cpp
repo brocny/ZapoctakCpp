@@ -1,11 +1,12 @@
 ﻿#include "LangProfile.h"
+#include "TextAnalyzer.h"
+
 #include <sstream>
 #include <algorithm>
-#include "TextAnalyzer.h"
 
 using namespace std;
 
-NgramRanking LangProfile::get_ranking(int count) const
+NgramRanking LangProfile::get_ranking(size_t count) const
 {
 	return NgramRanking(ngram_count_, count, lang_name_);
 }
@@ -52,14 +53,11 @@ void LangProfile::print(std::wostream& s) const
 
 NgramRanking::NgramRanking(const ngram_count & bag, size_t count, std::wstring name) : lang_name_(std::move(name))
 {
-	vector<pair<wstring, int>> v;
-	v.reserve(bag.size());
-	for(auto && i : bag)
-	{
-		v.push_back(i);
-	}
+	using ngram_count_ordered = vector<pair<wstring, size_t>>;
+
+	ngram_count_ordered v(bag.begin(), bag.end());
+	std::sort(v.begin(), v.end(), cmp_second<wstring, size_t>);
 	
-	std::sort(v.begin(), v.end(), cmp_second<wstring, int>);
 	top_ngrams_.reserve(count);
 
 	for(size_t i = 0; i < count && i < v.size(); ++i)

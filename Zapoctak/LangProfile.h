@@ -45,7 +45,7 @@ class LangProfile
 public:
 	LangProfile() = default;
 
-	NgramRanking get_ranking(int count = 300) const;
+	NgramRanking get_ranking(size_t count = 300) const;
 
 	void update_profile(const ngram_count & count, bool overwrite);
 	void update_profile(const LangProfile & profile, bool overwrite);

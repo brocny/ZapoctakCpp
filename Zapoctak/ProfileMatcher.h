@@ -15,8 +15,10 @@ public:
 		}
 	}
 
-	std::vector<std::pair<std::wstring, size_t>> match_prof(const LangProfile & prof);
-	std::vector<std::pair<std::wstring, size_t>> match_prof(const NgramRanking & ranking);
+	using matching_results = std::vector<std::pair<std::wstring, size_t>>;
+
+	matching_results match_prof(const LangProfile & prof);
+	matching_results match_prof(const NgramRanking & ranking);
 	void load_ref_langs(const std::string & path);
 	void load_ref_langs_from_text(const std::string & path);
 	const std::vector<NgramRanking> & get_ref_langs() const { return reference_languages_; }
